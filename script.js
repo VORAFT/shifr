@@ -1,135 +1,122 @@
-body {
-    font-family: 'Segoe UI';
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
-    margin: 0;
-    box-sizing: border-box;
+class Tabs {
+    constructor(selector) {
+        this.container = document.querySelector(selector);
+        this.tabHeader = this.container.querySelector('.tabs-header')
+        this.tabButtons = this.container.querySelectorAll('.tabs_button');
+        this.tabContent = this.container.querySelectorAll('.tabs-content');
+        this.init();
+    }
+
+    init() {
+
+        this.tabHeader.addEventListener('click', (e) => {
+            const clickedButton = e.target.closest('.tabs_button');
+
+            if (!clickedButton) return;
+
+            e.preventDefault();
+            const index = clickedButton.dataset.tabIndex;
+            if (index !== undefined) {
+                this.activateTab(index)
+            }
+
+        });
+        this.activateTab(0);
+    }
+
+    activateTab(index) {
+        this.tabButtons.forEach((btn, i) => {
+            if (i == index) {
+                btn.classList.add('is-active');
+            } else {
+                btn.classList.remove('is-active');
+            }
+        });
+
+        this.tabContent.forEach((content, i) => {
+            if (i == index) {
+                content.classList.add('is-active');
+            } else {
+                content.classList.remove('is-active');
+            }
+        });
+    }
 }
 
-.container {
-    background-color: rgb(223, 222, 222);
-    padding: 30px;
-    border-radius: 12px;
-    width: 100%;
-    max-width: 600px;
+function encrypt(text, cols) {
+      
+    const rows = Math.ceil(text.length / cols);
+
+    return [...Array(cols).keys()].reduce((result, j) => {
+
+        const rowss = [...Array(rows).keys()].reduce((rowssult, i) => {
+            const index = i * cols + j;
+            if (index < text.length) {
+                return rowssult + text[index];
+            } else {
+                return rowssult + "!";
+            }
+        }, '');
+        return result + rowss;
+    }, '');
+
 }
 
-h1 {
-    text-align: center;
-    margin-bottom: 20px;
+    //розшифрування
+function decrypt(text, cols) {
+    const rows = Math.ceil(text.length / cols);
+    
+    return [...Array(rows).keys()].reduce((result, i) => { 
+        const rowss = [...Array(cols).keys()].reduce((rowssult, j) => {
+            const index = (j * rows) + i;
+            return rowssult + text[index];
+        }, '');
+        return result + rowss;
+    }, '');
+
 }
 
-p {
-    text-align: center;
-    margin-bottom: 30px;
-}
 
-.pform {
-    margin-bottom: 20px;
-}
 
-label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 600;
-}
+document.addEventListener('DOMContentLoaded', () => {
 
-input[type="number"],
-textarea {
-    width: 100%;
-    padding: 12px;
-    border: 1px solid white;
-    border-radius: 6px;
-    font-size: 16px;
-    box-sizing: border-box;
-    transition: border-color 0.3s;
-}
+    new Tabs('#main-tabs');
 
-input[type="number"]:focus,
-textarea:focus {
-    outline: none;
-    border-color: blue;
-    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.2);
-}
+    const keyEncrypt = document.getElementById('key-encrypt');
+    const keyDecrypt = document.getElementById('key-decrypt');
+    const inputTextEncrypt = document.getElementById('inputText-encrypt');
+    const inputTextDecrypt = document.getElementById('inputText-decrypt');
+    const sufr = document.getElementById('sufr');
+    const undsufr = document.getElementById('undsufr');
+    const outputTextEncrypt = document.getElementById('outputText-encrypt');
+    const outputTextDecrypt = document.getElementById('outputText-decrypt');
 
-.buttons {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
+    sufr.addEventListener('click', () => {
+    const text = inputTextEncrypt.value;
+    const cols = parseInt(keyEncrypt.value, 10);
 
-button {
-    flex-grow: 1;
-    padding: 12px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    cursor: pointer;
-    transition: background-color 0.3s, transform 0.1s;
-}
+    if (!text || !cols || cols <= 1) {
+        alert("Будь ласка, введіть текст та коректний ключ (кількість стовпців > 1).");
+        return;
+    }
 
-button:hover {
-    transform: translateY(-2px);
-}
+    outputTextEncrypt.value = encrypt(text, cols);
+    });
 
-button:active {
-    transform: translateY(0);
-}
+    // Кнопка Розшифрувати
+    undsufr.addEventListener('click', () => {
+    const text = inputTextDecrypt.value;
+    const cols = parseInt(keyDecrypt.value, 10);
 
-#sufr {
-    background-color: #0a7cf6;
-    color: white;
-}
+    if (!text || !cols || cols <= 1) {
+        alert("Будь ласка, введіть текст та коректний ключ (кількість стовпців > 1).");
+        return;
+    }else if(text.length % cols !=0){
+        alert("Будь ласка, введіть текст та коректний ключ так щоб при діленні кількості символів на ключ виходило ціле значення.");
+        return;
+    }
+        
+    outputTextDecrypt.value = decrypt(text, cols);
+    });
 
-#sufr:hover {
-    background-color: #0b4c90;
-}
-
-#undsufr {
-    background-color: #32a64d;
-    color: white;
-}
-
-#undsufr:hover {
-    background-color: #2a873f;
-}
-
-.tabs-header {
-    display: flex;
-    border-bottom: 2px solid #c7c7c7;
-    margin-bottom: 20px;
-}
-
-.tabs_button {
-    padding: 10px 20px;
-    font-size: 16px;
-    font-weight: 600;
-    border: none;
-    border-bottom: 3px solid transparent; 
-    background-color: transparent;
-    cursor: pointer;
-    margin-bottom: -2px; 
-    transition: color 0.3s, border-color 0.3s;
-    flex-grow: 0; 
-    border-radius: 0;
-}
-
-.tabs_button:hover {
-    color: #0a7cf6;
-}
-
-.tabs_button.is-active {
-    color: #0a7cf6;
-    border-bottom-color: #0a7cf6;
-}
-
-.tabs-content {
-    display: none; 
-}
-
-.tabs-content.is-active {
-    display: block; 
-}
+});
