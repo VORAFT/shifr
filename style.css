@@ -96,3 +96,40 @@ button:active {
 #undsufr:hover {
     background-color: #2a873f;
 }
+
+.tabs-header {
+    display: flex;
+    border-bottom: 2px solid #c7c7c7;
+    margin-bottom: 20px;
+}
+
+.tabs_button {
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: 600;
+    border: none;
+    border-bottom: 3px solid transparent; 
+    background-color: transparent;
+    cursor: pointer;
+    margin-bottom: -2px; 
+    transition: color 0.3s, border-color 0.3s;
+    flex-grow: 0; 
+    border-radius: 0;
+}
+
+.tabs_button:hover {
+    color: #0a7cf6;
+}
+
+.tabs_button.is-active {
+    color: #0a7cf6;
+    border-bottom-color: #0a7cf6;
+}
+
+.tabs-content {
+    display: none; 
+}
+
+.tabs-content.is-active {
+    display: block; 
+}
