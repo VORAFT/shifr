@@ -13,24 +13,58 @@
         <h1>Шифр простої перестановки</h1>
         <p>Цей сайт шифрує та розшифровує текст за допомогою методу простої перестановки.</p>
 
-        <div class="pform">
-            <label for="key">Ключ (кількість стовпців у таблиці):</label>
-            <input type="number" id="key" min="2" value="5" placeholder="Введіть число наприклад 5">
-        </div>
+        <div id="main-tabs" class="tabs">
 
-        <div class="pform">
-            <label for="inputText">Введіть текст:</label>
-            <textarea id="inputText" rows="6" placeholder="Напишіть ваш текст:"></textarea>
-        </div>
+            <div class="tabs-header">
+                <button class="tabs_button" data-tab-index="0">Зашифрувати</button>
+                <button class="tabs_button" data-tab-index="1">Розшифрувати</button>
+            </div>
 
-        <div class="buttons">
-            <button id="sufr">Зашифрувати</button>
-            <button id="undsufr">Розшифрувати</button>
-        </div>
+            <div class="tabs-contents">
 
-        <div class="pform">
-            <label for="outputText">Результат:</label>
-            <textarea id="outputText" rows="6" readonly></textarea>
+                <div class="tabs-content" data-panel-index="0">
+                    <div class="pform">
+                        <label for="key-encrypt">Ключ (кількість стовпців у таблиці):</label>
+                        <input type="number" id="key-encrypt" min="2" value="5" placeholder="Введіть число наприклад 5">
+                    </div>
+
+                    <div class="pform">
+                        <label for="inputText-encrypt">Введіть текст:</label>
+                        <textarea id="inputText-encrypt" rows="6" placeholder="Напишіть ваш текст:"></textarea>
+                    </div>
+
+                    <div class="buttons">
+                        <button id="sufr">Зашифрувати</button>
+                    </div>
+
+                    <div class="pform">
+                        <label for="outputText-encrypt">Результат:</label>
+                        <textarea id="outputText-encrypt" rows="6" readonly></textarea>
+                    </div>
+
+                </div>
+
+                <div class="tabs-content" data-panel-index="1">
+                    <div class="pform">
+                        <label for="key-decrypt">Ключ (кількість стовпців у таблиці):</label>
+                        <input type="number" id="key-decrypt" min="2" value="5" placeholder="Введіть число наприклад 5">
+                    </div>
+
+                    <div class="pform">
+                        <label for="inputText-decrypt">Введіть текст:</label>
+                        <textarea id="inputText-decrypt" rows="6" placeholder="Напишіть ваш текст:"></textarea>
+                    </div>
+
+                    <div class="buttons">
+                        <button id="undsufr">Розшифрувати</button>
+                    </div>
+
+                    <div class="pform">
+                        <label for="outputText-decrypt">Результат:</label>
+                        <textarea id="outputText-decrypt" rows="6" readonly></textarea>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
